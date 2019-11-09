@@ -1,8 +1,32 @@
 <?php
 
+use App\HandlerCielo;
+
 require 'vendor/autoload.php';
 
-use Cielo\API30\Merchant;
+require_once "config.php";
+
+$handler = new HandlerCielo();
+
+
+
+
+
+$actual_sale = $handler->fillSale("123", "Irineu", 10);
+
+$result = $handler->storeSale($actual_sale);
+
+var_dump($result);
+
+$paymentId = $result->getPayment()->getPaymentId();
+
+$query_res = $handler->readSaleById($paymentId);
+
+var_dump($query_res);
+
+
+
+/*use Cielo\API30\Merchant;
 
 use Cielo\API30\Ecommerce\Environment;
 use Cielo\API30\Ecommerce\Sale;
@@ -73,6 +97,9 @@ try {
 
     var_dump($error);
 }
+*/
+
+
 
 
 
