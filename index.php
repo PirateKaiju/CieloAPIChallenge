@@ -9,9 +9,8 @@ require_once "config.php";
 $handler = new HandlerCielo();
 
 
-
-
-
+/*
+//EXAMPLE
 $actual_sale = $handler->fillSale("123", "Irineu", 10);
 
 $result = $handler->storeSale($actual_sale);
@@ -22,140 +21,103 @@ $paymentId = $result->getPayment()->getPaymentId();
 
 $query_res = $handler->readSaleById($paymentId);
 
-var_dump($query_res);
+var_dump($query_res);*/
 
 
+$result = "";
 
-/*use Cielo\API30\Merchant;
+if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-use Cielo\API30\Ecommerce\Environment;
-use Cielo\API30\Ecommerce\Sale;
-use Cielo\API30\Ecommerce\CieloEcommerce;
-use Cielo\API30\Ecommerce\Payment;
-use Cielo\API30\Ecommerce\CreditCard;
+    $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-use Cielo\API30\Ecommerce\Request\CieloRequestException;
+    //TODO: INPUT VALIDATION
 
-define("MERCH_ID", "ba61abe4-33ad-4933-856b-87f33acd4876");
-define("MERCH_KEY", "GRWRNLOVGGRNCFYSMSTMMUXPSKOKPGCTQPDCTHMV");
+    $actual_sale = $handler->fillSale($_POST["sale_id"], $_POST["customer_name"], $_POST["value"]);
 
-// ...
-// Configure o ambiente
-$environment = $environment = Environment::sandbox();
+    $result = $handler->storeSale($actual_sale);
 
-// Configure seu merchant
-$merchant = new Merchant(MERCH_ID, MERCH_KEY);
-
-// Crie uma instância de Sale informando o ID do pedido na loja
-$sale = new Sale('123');
-
-// Crie uma instância de Customer informando o nome do cliente
-$customer = $sale->customer('Fulano de Tal');
-
-// Crie uma instância de Payment informando o valor do pagamento
-$payment = $sale->payment(15700);
-
-// Crie uma instância de Credit Card utilizando os dados de teste
-// esses dados estão disponíveis no manual de integração
-$payment->setType(Payment::PAYMENTTYPE_CREDITCARD)
-        ->creditCard("123", CreditCard::VISA)
-        ->setExpirationDate("12/2020")
-        ->setCardNumber("0000000000000001")
-        ->setHolder("Fulano de Tal");
-
-
-//echo "Success";
-
-// Crie o pagamento na Cielo
-try {
-    // Configure o SDK com seu merchant e o ambiente apropriado para criar a venda
-    $sale = (new CieloEcommerce($merchant, $environment))->createSale($sale);
-
-    //var_dump($sale);
-
-    // Com a venda criada na Cielo, já temos o ID do pagamento, TID e demais
-    // dados retornados pela Cielo
-    $paymentId = $sale->getPayment()->getPaymentId();
-    //$paymentId = "b932a2a6-95b8-469b-b647-7a93bef587be";
-
-    // Com o ID do pagamento, podemos fazer sua captura, se ela não tiver sido capturada ainda
-    //$sale = (new CieloEcommerce($merchant, $environment))->captureSale($paymentId, 15700, 0);
-
-    $sale = (new CieloEcommerce($merchant, $environment))->getSale($paymentId);
-
-    var_dump($sale);
-
-
-
-    // E também podemos fazer seu cancelamento, se for o caso
-    $sale = (new CieloEcommerce($merchant, $environment))->cancelSale($paymentId, 15700);
-    //var_dump($sale);
-} catch (CieloRequestException $e) {
-    // Em caso de erros de integração, podemos tratar o erro aqui.
-    // os códigos de erro estão todos disponíveis no manual de integração.
-    $error = $e->getCieloError();
-
-    var_dump($error);
 }
-*/
 
+//TODO: HANDLE CREDIT CARD INFORMATION
+//TODO: HANDLE DIFFERENT TYPES OF TRANSACTION (CREDIT, BANK SLIP, ...)
+//TODO: HANDLE ERRORS AND PRINT
 
-
-
-
-
-
-/*require "vendor/autoload.php";
-
-use Cielo\API30\Ecommerce\CieloEcommerce;
-use Cielo\API30\Ecommerce\CreditCard;
-use Cielo\API30\Ecommerce\Environment;
-use Cielo\API30\Ecommerce\Payment;
-use Cielo\API30\Ecommerce\Request\CieloRequestException;
-use Cielo\API30\Ecommerce\Sale;
-use Cielo\API30\Merchant;
-
-define("MERCH_ID", "ba61abe4-33ad-4933-856b-87f33acd4876");
-define("MERCH_KEY", "GRWRNLOVGGRNCFYSMSTMMUXPSKOKPGCTQPDCTHMV");
-
-
-
-
-$environment = Environment::sandbox();
-
-$merchant = new Merchant(MERCH_ID, MERCH_KEY);
-
-$sale = new Sale("123");
-
-$customer = $sale->customer("Irineu");
-
-$payment = $sale->payment(9999);
-
-$payment->setType(Payment::PAYMENTTYPE_CREDITCARD)
-        ->creditCard("123", CreditCard::MASTERCARD)
-        ->setExpirationDate("12/2020")
-        ->setCardNumber("0000000000000001")
-        ->setCustomerName("Irineu");
-
-try{
-
-    $sale = (new CieloEcommerce($merchant, $environment))->createSale($sale);
-
-    $paymentId = $sale->getPayment()->getPaymentId();
-
-    $sale = (new CieloEcommerce($merchant, $environment))->captureSale($paymentId, 9999, 0);
-
-    echo $sale->getAmount();
-
-    $sale = (new CieloEcommerce($merchant, $$environment))->cancelSale($paymentId, 9999);
-
-} catch(CieloRequestException $e){
-
-    echo $e->getCieloError();
-
-}*/
-
-
-
+//TODO: IMPLEMENT A "FORMAL" ARCHITECTURE. MAYBE REWRITE USING MVC.
 
 ?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Luiz's Cielo Test Sample</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+</head>
+<body>
+
+    <section class="section">
+        <div class="tabs has-text-black is-centered">
+            <ul>
+                <li><a href="/index.php">Envio de Venda</a></li>
+                <li><a href="/consulta.php">Consulta</a></li>
+            </ul>
+        </div>
+        <div class="container is-fluid">
+            <div class="hero is-light">
+                <div class="hero-body">
+
+                    
+                    
+                    <h1 class="title has-text-black">Formulário</h1>
+
+                    <form class="box" action="" method="POST">
+
+                    <div class="field">
+                        <label class="label">Nome do cliente</label>
+                        <div class="control">
+                            <input name="customer_name" class="input" type="text" value="">
+                        </div>
+
+                        <label class="label">Valor da venda</label>
+                        <div class="control">
+                            <input name="value" class="input" type="number">
+                        </div>
+
+                        <label class="label">Identificador da venda (Numérico)</label>
+                        <div class="control">
+                            <input name="sale_id" class="input" type="number">
+                        </div>
+
+                        <br>
+                        <br>
+
+                        <div class="field">
+                            <div class="control is-centered has-text-centered">
+                                <input class="button is-primary" type="submit" value="Registrar">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    </form>
+
+                    <br>
+
+                    <h1 class="title has-text-black">Resultado: </h1>
+
+                    <div class="box">
+                        <p>
+                            <?php var_dump($result); ?>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    
+</body>
+</html>

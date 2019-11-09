@@ -33,7 +33,7 @@ use Cielo\API30\Merchant;
             
             //TODO: ENABLE CUSTOM
             $payment->setType(Payment::PAYMENTTYPE_CREDITCARD)
-                    ->creditCard("123", CreditCard::VISA)
+                    ->creditCard($id, CreditCard::VISA)
                     ->setExpirationDate("12/2020")
                     ->setCardNumber("0000000000000001")
                     ->setHolder("Irineu");
