@@ -15,7 +15,7 @@ Esta aplicação faz uso do composer como gerenciador de dependências. Para tes
 <ul>
 
 <li>Clone este repositório (ou faça o download e descompacte o arquivo)</li>
-<li>No diretório do projeto, execute o comando: </li>
+<li>No diretório do projeto, execute o comando: '''composer install'''</li>
 <li>A Chave e o Identificador devem ser atribuídos às constantes presentes no arquivo <i>config.php</i> do projeto</li>
 <li>Esta aplicação foi desenvolvida de modo à operar independentemente do servidor utilizado. Fato é que o próprio servidor built-in de testes do PHP pode ser usado para a mesma. Para isto, é necessário rodar o seguinte comando no diretório do projeto: '''php -S localhost:8000'''</li>
 <li>Acesse o endereço a seguir para a UI da aplicação: http://localhost:8000/</li>
