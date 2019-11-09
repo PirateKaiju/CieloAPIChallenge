@@ -41,6 +41,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 //TODO: HANDLE CREDIT CARD INFORMATION
 //TODO: HANDLE DIFFERENT TYPES OF TRANSACTION (CREDIT, BANK SLIP, ...)
 //TODO: HANDLE ERRORS AND PRINT
+//TODO: SEPARATE TABS MENU
+//TODO: COMPLETE EXAMPLE
 
 //TODO: IMPLEMENT A "FORMAL" ARCHITECTURE. MAYBE REWRITE USING MVC.
 
@@ -69,8 +71,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <div class="hero is-light">
                 <div class="hero-body">
 
-                    
-                    
+
+                    <?php if($result): ?>
+                        
+                        <div class="notification is-primary">
+                            Venda enviada com sucesso! Para consultá-la, utilize o identificador de pagamento 
+                            <?php echo $result->getPayment()->getPaymentId(); ?>
+                        </div>
+
+                    <?php endif;?>
+
                     <h1 class="title has-text-black">Formulário</h1>
 
                     <form class="box" action="" method="POST">
@@ -109,9 +119,62 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <h1 class="title has-text-black">Resultado: </h1>
 
                     <div class="box">
+
+                        <?php if($result): ?>
+                        
+                            <p>
+                            
+                            Identificador do Pagamento: <?php echo $result->getPayment()->getPaymentId(); ?>
+
+                            </p>
+
+                            <p>
+                            
+                            Nome do cliente: <?php echo $result->getCustomer()->getName(); ?>
+
+                            </p>
+
+                            <p>
+                            
+                            Tipo: <?php echo $result->getPayment()->getType(); ?>
+
+                            </p>
+
+                            <p>
+                            
+                            Valor do Pagamento: <?php echo $result->getPayment()->getAmount(); ?>
+
+                            </p>
+
+                            <p>
+                            
+                            País: <?php echo $result->getPayment()->getCountry(); ?>
+
+                            </p>
+
+                            <p>
+                            
+                            Data de processamento: <?php echo $result->getPayment()->getReceivedDate(); ?>
+
+                            </p>
+
+                            <p>
+                            
+                            Cartão: <?php echo $result->getPayment()->getCreditCard()->getCardNumber(); ?>
+
+                            </p>
+                        
                         <p>
-                            <?php var_dump($result); ?>
+                            <?php 
+                            
+
+                                var_dump($result);
+
+
+                            ?>
                         </p>
+
+                        <?php endif;?>
                     </div>
 
                 </div>
