@@ -26,23 +26,22 @@ var_dump($query_res);*/
 
 $result = "";
 
+//For POST requests, this will store a sale through the API
+
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
     //TODO: INPUT VALIDATION
 
-    $actual_sale = $handler->fillSale($_POST["sale_id"], $_POST["customer_name"], $_POST["value"]);
+    $actual_sale = $handler->fillSale($_POST["sale_id"], $_POST["customer_name"], $_POST["value"], $_POST["card_number"], $_POST["card_exp_date"]);
 
     $result = $handler->storeSale($actual_sale);
 
 }
 
-//TODO: HANDLE CREDIT CARD INFORMATION
-//TODO: HANDLE DIFFERENT TYPES OF TRANSACTION (CREDIT, BANK SLIP, ...)
-//TODO: HANDLE ERRORS AND PRINT
+//TODO: HANDLE DIFFERENT TYPES OF TRANSACTION (CREDIT, DEBIT, BANK SLIP, ...)
 //TODO: SEPARATE TABS MENU
-//TODO: COMPLETE EXAMPLE
 
 //TODO: IMPLEMENT A "FORMAL" ARCHITECTURE. MAYBE REWRITE USING MVC.
 
@@ -56,6 +55,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Luiz's Cielo Test Sample</title>
+    <!--Using bulma CSS-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
 </head>
 <body>
@@ -65,6 +65,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <ul>
                 <li><a href="/index.php">Envio de Venda</a></li>
                 <li><a href="/consulta.php">Consulta</a></li>
+                <li><a href="/exemplo.php">Exemplo Simplificado</a></li>
             </ul>
         </div>
         <div class="container is-fluid">
@@ -82,6 +83,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <?php endif;?>
 
                     <h1 class="title has-text-black">Formulário</h1>
+                    <p>(Nota: Por simplicidade, não há validação de campos implementada no momento. Os campos de entrada são consideráveis apenas para uma noção geral do exemplo)</p>
 
                     <form class="box" action="" method="POST">
 
@@ -99,6 +101,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         <label class="label">Identificador da venda (Numérico)</label>
                         <div class="control">
                             <input name="sale_id" class="input" type="number">
+                        </div>
+
+                        <label class="label">Número do Cartão</label>
+                        <div class="control">
+                            <input name="card_number" class="input" type="number">
+                        </div>
+
+                        <label class="label">Data de Expiração (MM/YYYY)</label>
+                        <div class="control">
+                            <input name="card_exp_date" class="input" type="text">
                         </div>
 
                         <br>
@@ -168,7 +180,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             <?php 
                             
 
-                                var_dump($result);
+                                //var_dump($result);
 
 
                             ?>

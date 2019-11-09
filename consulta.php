@@ -1,38 +1,40 @@
 <?php
 
-use App\HandlerCielo;
+    use App\HandlerCielo;
+    use Cielo\API30\Ecommerce\Request\CieloError;
 
-require 'vendor/autoload.php';
+    require 'vendor/autoload.php';
 
-require_once "config.php";
+    require_once "config.php";
 
-$handler = new HandlerCielo();
-
-
-/*
-//EXAMPLE
-$actual_sale = $handler->fillSale("123", "Irineu", 10);
-
-$result = $handler->storeSale($actual_sale);
-
-var_dump($result);
-
-$paymentId = $result->getPayment()->getPaymentId();
-
-$query_res = $handler->readSaleById($paymentId);
-
-var_dump($query_res);*/
+    $handler = new HandlerCielo();
 
 
-$result = "";
+    /*
+    //EXAMPLE
+    $actual_sale = $handler->fillSale("123", "Irineu", 10);
 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
+    $result = $handler->storeSale($actual_sale);
 
-    $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+    var_dump($result);
 
-    //TODO: INPUT VALIDATION
+    $paymentId = $result->getPayment()->getPaymentId();
 
-    $result = $handler->readSaleById($_POST["sale_payment_id"]);
+    $query_res = $handler->readSaleById($paymentId);
+
+    var_dump($query_res);*/
+
+
+    $result = "";
+
+    //For POST requests, this will perform the API record reading
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+        //TODO: INPUT VALIDATION
+
+        $result = $handler->readSaleById($_POST["sale_payment_id"]);
 
 }
 
@@ -55,6 +57,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <ul>
                 <li><a href="/index.php">Envio de Venda</a></li>
                 <li><a href="/consulta.php">Consulta</a></li>
+                <li><a href="/exemplo.php">Exemplo Simplificado</a></li>
             </ul>
         </div>
         <div class="container is-fluid">
@@ -93,7 +96,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
                     <div class="box">
 
-                        <?php if($result): ?>
+                        <?php 
+                        
+                        if($result): 
+                            
+                            if($result instanceof CieloError):
+                                //Checking for possible errors (really basic).
+                                echo "Erro durante a consulta! Tente novamente.";
+                            else:
+                        ?>
+
+
                         
                             <p>
                             
@@ -138,6 +151,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             </p>
                         
                         <p>
+
+                            <p>Objeto: </p>
                             <?php 
                             
 
@@ -147,6 +162,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             ?>
                         </p>
 
+                        <?php endif;?>
                         <?php endif;?>
                     </div>
 
