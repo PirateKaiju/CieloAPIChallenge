@@ -1,5 +1,12 @@
 <?php
 
+/** 
+ * This application was developed as an initial challenge for applying at RBM WEB, for the 
+ * PHP Developer job.
+ * 
+ * @author Luiz Antonio
+*/
+
 use App\HandlerCielo;
 
 require 'vendor/autoload.php';
@@ -10,7 +17,8 @@ $handler = new HandlerCielo();
 
 
 /*
-//EXAMPLE
+//EXAMPLE - IGNORE IF UNNECESSARY
+
 $actual_sale = $handler->fillSale("123", "Irineu", 10);
 
 $result = $handler->storeSale($actual_sale);
@@ -21,7 +29,9 @@ $paymentId = $result->getPayment()->getPaymentId();
 
 $query_res = $handler->readSaleById($paymentId);
 
-var_dump($query_res);*/
+var_dump($query_res);
+
+*/
 
 
 $result = "";
@@ -82,9 +92,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
                     <?php endif;?>
 
+                    <?php if(MERCH_ID === "" || MERCH_KEY === ""): ?>
+                        <div class="notification is-danger">
+                            Verifique as chaves da API Cielo no arquivo 'config.php'
+                        </div>
+                    <?php endif;?>
+
                     <h1 class="title has-text-black">Formulário</h1>
                     <p>(Nota: Por simplicidade, não há validação de campos implementada no momento. Os campos de entrada são consideráveis apenas para uma noção geral do exemplo)</p>
-
+                    
                     <form class="box" action="" method="POST">
 
                     <div class="field">
