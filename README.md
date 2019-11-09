@@ -1,7 +1,7 @@
-<h1>Exemplo de aplicação com a API Cielo</h1>
+<h1>Exemplo de aplicação com a API Cielo em PHP</h1>
 
 <h3>Sobre</h3>
-Esta aplicação cria e consulta registros de vendas através da API Cielo. A mesma é desenvolvida em PHP, com a API Cielo na versão 3.0 disponível em: 
+Esta é uma aplicação de teste que cria e consulta registros de vendas através da API Cielo. A mesma é desenvolvida em PHP, com a API Cielo na versão 3.0, disponível em: 
 https://github.com/DeveloperCielo/ 
 
 No viés de tornar esta uma aplicação mais interativa, a mesma conta com uma UI (páginas) que possibilita executar os testes.
@@ -21,6 +21,3 @@ Esta aplicação faz uso do composer como gerenciador de dependências. Para tes
 <li>Acesse o endereço a seguir para a UI da aplicação: http://localhost:8000/</li>
 
 </ul>
-
-
-Video e screens
